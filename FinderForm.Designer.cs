@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.resultTreeView = new System.Windows.Forms.TreeView();
             this.startDirTextBox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -41,6 +42,7 @@
             this.timeLabel = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.fileNameTextBox = new System.Windows.Forms.TextBox();
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.SuspendLayout();
             // 
             // resultTreeView
@@ -94,6 +96,7 @@
             // 
             // label3
             // 
+            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(12, 356);
             this.label3.Name = "label3";
@@ -103,6 +106,7 @@
             // 
             // label4
             // 
+            this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(12, 369);
             this.label4.Name = "label4";
@@ -112,6 +116,7 @@
             // 
             // label5
             // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(246, 369);
             this.label5.Name = "label5";
@@ -121,8 +126,9 @@
             // 
             // filesCountLabel
             // 
+            this.filesCountLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.filesCountLabel.AutoSize = true;
-            this.filesCountLabel.Location = new System.Drawing.Point(203, 369);
+            this.filesCountLabel.Location = new System.Drawing.Point(197, 369);
             this.filesCountLabel.Name = "filesCountLabel";
             this.filesCountLabel.Size = new System.Drawing.Size(13, 13);
             this.filesCountLabel.TabIndex = 8;
@@ -130,14 +136,16 @@
             // 
             // fileNameLabel
             // 
+            this.fileNameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.fileNameLabel.AutoSize = true;
-            this.fileNameLabel.Location = new System.Drawing.Point(148, 356);
+            this.fileNameLabel.Location = new System.Drawing.Point(143, 356);
             this.fileNameLabel.Name = "fileNameLabel";
             this.fileNameLabel.Size = new System.Drawing.Size(0, 13);
             this.fileNameLabel.TabIndex = 9;
             // 
             // timeLabel
             // 
+            this.timeLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.timeLabel.AutoSize = true;
             this.timeLabel.Location = new System.Drawing.Point(357, 369);
             this.timeLabel.Name = "timeLabel";
@@ -162,6 +170,12 @@
             this.fileNameTextBox.Size = new System.Drawing.Size(304, 20);
             this.fileNameTextBox.TabIndex = 11;
             this.fileNameTextBox.Text = "read_me";
+            // 
+            // imageList1
+            // 
+            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
+            this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             // 
             // FinderForm
             // 
@@ -203,6 +217,7 @@
         private System.Windows.Forms.Label timeLabel;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox fileNameTextBox;
+        private System.Windows.Forms.ImageList imageList1;
     }
 }
 

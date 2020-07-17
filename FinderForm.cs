@@ -16,13 +16,13 @@ namespace Finder
     public partial class FinderForm : Form
     {
 
-        private static TreeNode mainNode;
+        public static TreeNode mainNode;
 
         public delegate void AddCheckingFileInfo(String text);
         public AddCheckingFileInfo DelegateAddCheckingFileInfo;
         public delegate void IncrFilesCount();
         public IncrFilesCount DelegateIncrFilesCount;
-        public delegate void AddNode(String text);
+        public delegate TreeNode AddNode(String text, TreeNode node);
         public AddNode DelegateAddNode;
 
         
@@ -39,10 +39,8 @@ namespace Finder
         {
             PrepareToStart(startDirTextBox.Text);
             Finder f = new Finder();
-            //Data data = new Data(startDirTextBox.Text, fileNameTextBox.Text, this);
             Thread t = new Thread(new ParameterizedThreadStart(Finder.FindFiles));
-            t.Start(new Data(startDirTextBox.Text, fileNameTextBox.Text, this));
-            //f.FindFiles(startDirTextBox.Text, fileNameTextBox.Text, this);
+            t.Start(new Data(startDirTextBox.Text, fileNameTextBox.Text, this, mainNode));
         }
 
         private void PrepareToStart(String startDirectory)
@@ -54,13 +52,14 @@ namespace Finder
             filesCountLabel.Text = "0";
         }
 
-        public void AddNodeMethod(String text)
+        public TreeNode AddNodeMethod(String text, TreeNode Node)
         {
             TreeNode aNode;
             aNode = new TreeNode(text, 0, 0);
             aNode.ImageKey = "file";
-            mainNode.Nodes.Add(aNode);
+            Node.Nodes.Add(aNode);
             resultTreeView.ExpandAll();
+            return aNode;          
         }
 
         public void AddCheckingFileInfoMethod(String text)
@@ -80,11 +79,13 @@ namespace Finder
     {
         public String startDirectory, fileName;
         public FinderForm mainForm;
-        public Data(String startDirectory, String fileName, FinderForm mainForm)
+        public TreeNode Node;
+        public Data(String startDirectory, String fileName, FinderForm mainForm, TreeNode Node)
         {
             this.startDirectory = startDirectory;
             this.fileName = fileName;
             this.mainForm = mainForm;
+            this.Node = Node;
         }
     }
 
@@ -93,10 +94,11 @@ namespace Finder
         public static void FindFiles (object data)
         {
             Data entData = (Data)data;
-            ScanDir(entData.startDirectory, entData.fileName, entData.mainForm);
+            ScanDir(entData.startDirectory, entData.fileName, entData.mainForm, entData.Node);
+            entData.mainForm.Invoke(entData.mainForm.DelegateAddCheckingFileInfo, new Object[] { "" });
         }
 
-        public static void ScanDir(String dirName, String filename, FinderForm mainForm)
+        public static void ScanDir(String dirName, String filename, FinderForm mainForm, TreeNode Node)
         {
             DirectoryInfo dir = new DirectoryInfo(dirName);
             foreach (FileInfo file in dir.GetFiles())
@@ -104,12 +106,17 @@ namespace Finder
                 mainForm.Invoke(mainForm.DelegateAddCheckingFileInfo, new Object[] { file.Name });
                 
                 if (file.Name.Contains(filename))
-                    mainForm.Invoke(mainForm.DelegateAddNode, new Object[] { file.Name });           
-                
+                    mainForm.Invoke(mainForm.DelegateAddNode, new Object[] { file.Name, Node });                   
                 mainForm.Invoke(mainForm.DelegateIncrFilesCount);
-                Thread.Sleep(300);
+                Thread.Sleep(17);
             }
-            mainForm.Invoke(mainForm.DelegateAddCheckingFileInfo, new Object[] { "" });
+
+            foreach (DirectoryInfo directory in dir.GetDirectories())
+            {             
+                TreeNode newNode = (TreeNode) mainForm.Invoke(mainForm.DelegateAddNode, new Object[] { directory.Name, Node });
+                Thread.Sleep(17);
+                ScanDir(directory.FullName, filename, mainForm, newNode);
+            }
         }
     }
 }
