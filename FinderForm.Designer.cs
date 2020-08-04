@@ -42,8 +42,10 @@
             this.timeLabel = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.fileNameTextBox = new System.Windows.Forms.TextBox();
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.pauseButton = new System.Windows.Forms.Button();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.label7 = new System.Windows.Forms.Label();
+            this.subStringTextBox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // resultTreeView
@@ -51,9 +53,9 @@
             this.resultTreeView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.resultTreeView.Location = new System.Drawing.Point(15, 79);
+            this.resultTreeView.Location = new System.Drawing.Point(15, 105);
             this.resultTreeView.Name = "resultTreeView";
-            this.resultTreeView.Size = new System.Drawing.Size(484, 274);
+            this.resultTreeView.Size = new System.Drawing.Size(540, 415);
             this.resultTreeView.TabIndex = 0;
             // 
             // startDirTextBox
@@ -62,9 +64,8 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.startDirTextBox.Location = new System.Drawing.Point(114, 14);
             this.startDirTextBox.Name = "startDirTextBox";
-            this.startDirTextBox.Size = new System.Drawing.Size(304, 20);
+            this.startDirTextBox.Size = new System.Drawing.Size(360, 20);
             this.startDirTextBox.TabIndex = 1;
-            this.startDirTextBox.Text = "C:\\Users\\admin\\Desktop";
             // 
             // label1
             // 
@@ -78,9 +79,9 @@
             // findButton
             // 
             this.findButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.findButton.Location = new System.Drawing.Point(424, 12);
+            this.findButton.Location = new System.Drawing.Point(480, 12);
             this.findButton.Name = "findButton";
-            this.findButton.Size = new System.Drawing.Size(75, 23);
+            this.findButton.Size = new System.Drawing.Size(75, 34);
             this.findButton.TabIndex = 3;
             this.findButton.Text = "Найти";
             this.findButton.UseVisualStyleBackColor = true;
@@ -89,7 +90,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 63);
+            this.label2.Location = new System.Drawing.Point(12, 89);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(101, 13);
             this.label2.TabIndex = 4;
@@ -99,7 +100,7 @@
             // 
             this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 356);
+            this.label3.Location = new System.Drawing.Point(12, 523);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(130, 13);
             this.label3.TabIndex = 5;
@@ -109,7 +110,7 @@
             // 
             this.label4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 369);
+            this.label4.Location = new System.Drawing.Point(12, 536);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(185, 13);
             this.label4.TabIndex = 6;
@@ -119,7 +120,7 @@
             // 
             this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(246, 369);
+            this.label5.Location = new System.Drawing.Point(261, 536);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(105, 13);
             this.label5.TabIndex = 7;
@@ -129,7 +130,7 @@
             // 
             this.filesCountLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.filesCountLabel.AutoSize = true;
-            this.filesCountLabel.Location = new System.Drawing.Point(197, 369);
+            this.filesCountLabel.Location = new System.Drawing.Point(197, 536);
             this.filesCountLabel.Name = "filesCountLabel";
             this.filesCountLabel.Size = new System.Drawing.Size(13, 13);
             this.filesCountLabel.TabIndex = 8;
@@ -139,7 +140,7 @@
             // 
             this.fileNameLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.fileNameLabel.AutoSize = true;
-            this.fileNameLabel.Location = new System.Drawing.Point(143, 356);
+            this.fileNameLabel.Location = new System.Drawing.Point(143, 523);
             this.fileNameLabel.Name = "fileNameLabel";
             this.fileNameLabel.Size = new System.Drawing.Size(0, 13);
             this.fileNameLabel.TabIndex = 9;
@@ -148,7 +149,7 @@
             // 
             this.timeLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.timeLabel.AutoSize = true;
-            this.timeLabel.Location = new System.Drawing.Point(357, 369);
+            this.timeLabel.Location = new System.Drawing.Point(372, 536);
             this.timeLabel.Name = "timeLabel";
             this.timeLabel.Size = new System.Drawing.Size(0, 13);
             this.timeLabel.TabIndex = 10;
@@ -168,31 +169,50 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.fileNameTextBox.Location = new System.Drawing.Point(114, 40);
             this.fileNameTextBox.Name = "fileNameTextBox";
-            this.fileNameTextBox.Size = new System.Drawing.Size(304, 20);
+            this.fileNameTextBox.Size = new System.Drawing.Size(360, 20);
             this.fileNameTextBox.TabIndex = 11;
-            this.fileNameTextBox.Text = "read_me";
-            // 
-            // imageList1
-            // 
-            this.imageList1.ColorDepth = System.Windows.Forms.ColorDepth.Depth8Bit;
-            this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             // 
             // pauseButton
             // 
-            this.pauseButton.Location = new System.Drawing.Point(424, 38);
+            this.pauseButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pauseButton.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.pauseButton.Location = new System.Drawing.Point(480, 52);
             this.pauseButton.Name = "pauseButton";
-            this.pauseButton.Size = new System.Drawing.Size(75, 23);
+            this.pauseButton.Size = new System.Drawing.Size(75, 35);
             this.pauseButton.TabIndex = 13;
             this.pauseButton.Text = "Стоп";
             this.pauseButton.UseVisualStyleBackColor = true;
             this.pauseButton.Click += new System.EventHandler(this.pauseButton_Click);
             // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(12, 69);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(76, 13);
+            this.label7.TabIndex = 15;
+            this.label7.Text = "Часть файла:";
+            // 
+            // subStringTextBox
+            // 
+            this.subStringTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.subStringTextBox.Location = new System.Drawing.Point(114, 66);
+            this.subStringTextBox.Name = "subStringTextBox";
+            this.subStringTextBox.Size = new System.Drawing.Size(360, 20);
+            this.subStringTextBox.TabIndex = 14;
+            // 
             // FinderForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(511, 391);
+            this.ClientSize = new System.Drawing.Size(567, 558);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.subStringTextBox);
             this.Controls.Add(this.pauseButton);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.fileNameTextBox);
@@ -209,6 +229,8 @@
             this.Controls.Add(this.resultTreeView);
             this.Name = "FinderForm";
             this.Text = "Поиск файлов";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FinderForm_FormClosing);
+            this.Load += new System.EventHandler(this.FinderForm_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -229,8 +251,10 @@
         private System.Windows.Forms.Label timeLabel;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox fileNameTextBox;
-        private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.Button pauseButton;
+        private System.Windows.Forms.Timer timer1;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox subStringTextBox;
     }
 }
 

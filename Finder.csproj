@@ -47,6 +47,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data.cs" />
+    <Compile Include="FileChecker.cs" />
+    <Compile Include="Finder.cs" />
+    <Compile Include="IniFile.cs" />
     <Compile Include="FinderForm.cs">
       <SubType>Form</SubType>
     </Compile>

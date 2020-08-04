@@ -1,13 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.IO;
 using System.Threading;
 
 namespace Finder
@@ -17,16 +9,16 @@ namespace Finder
     {
         public static EventWaitHandle ewh;
         public static TreeNode mainNode;
-        public delegate void AddCheckingFileInfo(String text);
+        public delegate void AddCheckingFileInfo(string text);
         public AddCheckingFileInfo DelegateAddCheckingFileInfo;
         public delegate void IncrFilesCount();
         public IncrFilesCount DelegateIncrFilesCount;
         public delegate void EnableStartStopButton();
         public EnableStartStopButton DelegateEnableStartStopButton;
-        public delegate TreeNode AddNode(String text, TreeNode node);
+        public delegate TreeNode AddNode(string text, TreeNode node);
         public AddNode DelegateAddNode;
         private Thread t;
-
+        DateTime dold;
 
 
 
@@ -42,33 +34,45 @@ namespace Finder
 
         private void findButton_Click(object sender, EventArgs e)
         {
+            findButton.Enabled = false;
+            if(t != null)
+            {
+                ewh.Set();
+                t.Abort();
+                t = null;
+                ewh.Dispose();
+            }
             PrepareToStart(startDirTextBox.Text);
             Finder f = new Finder();
             t = new Thread(new ParameterizedThreadStart(Finder.FindFiles));
-            t.Start(new Data(ewh, startDirTextBox.Text, fileNameTextBox.Text, this, mainNode));
+            t.Start(new Data(ewh, startDirTextBox.Text, fileNameTextBox.Text, subStringTextBox.Text, this, mainNode));
+            findButton.Enabled = true;
         }
 
-        private void PrepareToStart(String startDirectory)
+        private void PrepareToStart(string startDirectory)
         {
+            pauseButton.Text = "Стоп";
             ewh = new EventWaitHandle(false, EventResetMode.AutoReset);
             mainNode = new TreeNode(startDirectory);
             mainNode.ImageKey = "folder";
             resultTreeView.Nodes.Clear();
             resultTreeView.Nodes.Add(mainNode);
             filesCountLabel.Text = "0";
+            dold = DateTime.Now;
+            timer1.Start();
         }
 
-        public TreeNode AddNodeMethod(String text, TreeNode Node)
+        public TreeNode AddNodeMethod(string text, TreeNode Node)
         {
             TreeNode aNode;
             aNode = new TreeNode(text, 0, 0);
             aNode.ImageKey = "file";
             Node.Nodes.Add(aNode);
-            resultTreeView.ExpandAll();
+            //resultTreeView.ExpandAll();
             return aNode;          
         }
 
-        public void AddCheckingFileInfoMethod(String text)
+        public void AddCheckingFileInfoMethod(string text)
         {
             fileNameLabel.Text = text;
         }
@@ -91,71 +95,56 @@ namespace Finder
             {
                 pauseButton.Enabled = false;
                 t.Interrupt();
+                timer1.Stop();
                 pauseButton.Text = "Старт";
             }
             else
             {
                 ewh.Set();
+                timer1.Start();
                 pauseButton.Text = "Стоп";
             }
         }
-    }
 
-    public class Data
-    {
-        public EventWaitHandle ewh;
-        public String startDirectory, fileName;
-        public FinderForm mainForm;
-        public TreeNode Node;
-        public Data(EventWaitHandle ewh, String startDirectory, String fileName, FinderForm mainForm, TreeNode Node)
+        private void FinderForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            this.ewh = ewh;
-            this.startDirectory = startDirectory;
-            this.fileName = fileName;
-            this.mainForm = mainForm;
-            this.Node = Node;
-        }
-    }
-
-    public class Finder
-    {
-        public static EventWaitHandle ewh;
-
-        public static void FindFiles (object data)
-        {           
-            Data entData = (Data)data;
-            ewh = entData.ewh;
-            ScanDir(entData.startDirectory, entData.fileName, entData.mainForm, entData.Node);
-            entData.mainForm.Invoke(entData.mainForm.DelegateAddCheckingFileInfo, new Object[] { "" });
+            if(t != null)
+            { 
+                t.Abort(); 
+            }
+            SaveToIni();
         }
 
-        public static void ScanDir(String dirName, String filename, FinderForm mainForm, TreeNode Node)
+        private void SaveToIni()
         {
-            try
-            {
-                DirectoryInfo dir = new DirectoryInfo(dirName);
-                foreach (FileInfo file in dir.GetFiles())
-                {
-                    mainForm.Invoke(mainForm.DelegateAddCheckingFileInfo, new Object[] { file.Name });
+            IniFile File = new IniFile(@".\ini.ini");
+            File.IniWriteValue("startDirTextBox", "text", startDirTextBox.Text);
+            File.IniWriteValue("fileNameTextBox", "text", fileNameTextBox.Text);
+            File.IniWriteValue("subStringTextBox", "text", subStringTextBox.Text);
+        }
 
-                    if (file.Name.Contains(filename))
-                        mainForm.Invoke(mainForm.DelegateAddNode, new Object[] { file.Name, Node });
-                    mainForm.Invoke(mainForm.DelegateIncrFilesCount);
-                    Thread.Sleep(17);
-                }
+        private void LoadFromIni()
+        {
+            IniFile File = new IniFile(@".\ini.ini");
+            startDirTextBox.Text = File.IniReadValue("startDirTextBox", "text");
+            fileNameTextBox.Text = File.IniReadValue("fileNameTextBox", "text");
+            subStringTextBox.Text = File.IniReadValue("subStringTextBox", "text");
+        }
 
-                foreach (DirectoryInfo directory in dir.GetDirectories())
-                {
-                    TreeNode newNode = (TreeNode)mainForm.Invoke(mainForm.DelegateAddNode, new Object[] { directory.Name, Node });
-                    Thread.Sleep(17);
-                    ScanDir(directory.FullName, filename, mainForm, newNode);
-                }
-            }
-            catch (ThreadInterruptedException)
-            {             
-                mainForm.Invoke(mainForm.DelegateEnableStartStopButton, new Object[] {});
-                ewh.WaitOne();
-            }
+        private void FinderForm_Load(object sender, EventArgs e)
+        {
+            LoadFromIni();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            TimeSpan WorkTime = DateTime.Now - dold;
+            string StrTime = WorkTime.Hours.ToString() + "." + WorkTime.Minutes.ToString() + "." + WorkTime.Seconds.ToString() + ".";
+            timeLabel.Text = WorkTime.ToString(@"hh\:mm\:ss");
         }
     }
+
+    
+
+    
 }
