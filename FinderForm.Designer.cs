@@ -43,6 +43,7 @@
             this.label6 = new System.Windows.Forms.Label();
             this.fileNameTextBox = new System.Windows.Forms.TextBox();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.pauseButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // resultTreeView
@@ -79,7 +80,7 @@
             this.findButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.findButton.Location = new System.Drawing.Point(424, 12);
             this.findButton.Name = "findButton";
-            this.findButton.Size = new System.Drawing.Size(75, 48);
+            this.findButton.Size = new System.Drawing.Size(75, 23);
             this.findButton.TabIndex = 3;
             this.findButton.Text = "Найти";
             this.findButton.UseVisualStyleBackColor = true;
@@ -177,11 +178,22 @@
             this.imageList1.ImageSize = new System.Drawing.Size(16, 16);
             this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
             // 
+            // pauseButton
+            // 
+            this.pauseButton.Location = new System.Drawing.Point(424, 38);
+            this.pauseButton.Name = "pauseButton";
+            this.pauseButton.Size = new System.Drawing.Size(75, 23);
+            this.pauseButton.TabIndex = 13;
+            this.pauseButton.Text = "Стоп";
+            this.pauseButton.UseVisualStyleBackColor = true;
+            this.pauseButton.Click += new System.EventHandler(this.pauseButton_Click);
+            // 
             // FinderForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(511, 391);
+            this.Controls.Add(this.pauseButton);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.fileNameTextBox);
             this.Controls.Add(this.timeLabel);
@@ -218,6 +230,7 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox fileNameTextBox;
         private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.Button pauseButton;
     }
 }
 
