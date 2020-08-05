@@ -51,6 +51,7 @@ namespace Finder
 
         private void PrepareToStart(string startDirectory)
         {
+            //pauseButton.Enabled = true;
             pauseButton.Text = "Стоп";
             ewh = new EventWaitHandle(false, EventResetMode.AutoReset);
             mainNode = new TreeNode(startDirectory);
